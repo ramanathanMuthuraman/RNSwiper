@@ -14,7 +14,7 @@ import {StyleSheet, Text, View, Dimensions, Button} from 'react-native';
 
 const colors = ['tomato', 'thistle', 'skyblue', 'teal'];
 
-const App = () => {
+const App = props => {
   const swiperRef = useRef(null);
 
   const handleNextClick = () => {
@@ -32,6 +32,7 @@ const App = () => {
     <View style={styles.container}>
       <SwiperFlatList
         ref={swiperRef}
+        e2eID="swiper"
         paginationStyleItem={styles.dotStyle}
         paginationStyleItemActive={styles.activeDotStyle}
         paginationStyle={styles.paginationStyle}
@@ -39,16 +40,18 @@ const App = () => {
         data={colors}
         renderItem={({item, index: listItemIndex}) => {
           return (
-            <View style={[styles.child, {backgroundColor: item}]}>
+            <View testID={item} style={[styles.child, {backgroundColor: item}]}>
               <Text style={styles.text}>{item}</Text>
               <Button
+                testID={`button-${listItemIndex}`}
                 style={styles.button}
                 onPress={debounce(handleNextClick, 500)}
-                title={`Next-${listItemIndex}`}
+                title="Next"
               />
             </View>
           );
         }}
+        {...props}
       />
     </View>
   );
@@ -67,8 +70,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 20,
     fontSize: 36,
-    borderWidth: 5,
-    borderColor: 'black',
     color: 'black',
   },
 });
